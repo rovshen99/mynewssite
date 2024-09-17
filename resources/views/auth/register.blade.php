@@ -7,7 +7,13 @@
             <div class="card">
                 <div class="card-header">Регистрация</div>
                 <div class="card-body">
-                    <!-- Блок для отображения ошибок валидации -->
+
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -23,10 +29,16 @@
                         <div class="form-group mb-3">
                             <label for="login">Логин</label>
                             <input type="text" name="login" class="form-control" value="{{ old('login') }}" required>
+                            @error('login')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="form-group mb-3">
                             <label for="password">Пароль</label>
                             <input type="password" name="password" class="form-control" required>
+                            @error('password')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="form-group mb-3">
                             <label for="password_confirmation">Повторите пароль</label>

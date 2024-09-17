@@ -19,11 +19,10 @@ class AuthController extends Controller
     $credentials = $request->only('login', 'password');
 
     if (auth()->attempt($credentials)) {
-        Log::info('User logged in: ' . auth()->user()->login);
         session(['user' => auth()->user()]);
         return redirect()->intended('news')->with('success', 'Вы успешно вошли');
     }
-    return back()->withErrors(['login' => 'Неверные учетные данные']);
+    return back()->withErrors(['login' => 'Неправильный логин или пароль']);
 }
 
     public function logout()
@@ -48,9 +47,9 @@ class AuthController extends Controller
         $user->login = $request->login;
         $user->password = Hash::make($request->password);
         $user->save();
+        
         session(['user' => $user]);
-
-        return redirect('/news');
+        return redirect('/news')->with('success', 'Регистрация успешна');
     }
 }
 
